@@ -1,0 +1,72 @@
+.navbar-default{
+	transition: all 0.6s;
+	background-color: rgba(0,0,0,.7);
+	border: 0;
+	border-radius: 0;
+}
+
+
+.header{                                       
+	text-align: center;
+	letter-spacing: 1rem;
+}
+
+.navbar{
+	min-height: 5.4rem !important;
+}
+
+
+@media screen and (min-width:1000px){
+
+.nav-con{
+	padding: 0 12rem;
+}
+
+}
+
+
+.logindiv{
+	border: 1px solid white;
+	padding: 0rem 3.5rem;
+	height: 24rem;
+	background: rgba(255,255,255,.4);
+	position: relative;
+    width:100%;
+    margin:15rem 0;
+    text-align:center;
+}
+
+.login-h{
+	border-bottom: 2px solid #337AB7;
+	text-align: center;
+	letter-spacing: 2.5px;
+}
+
+.login-f{
+	padding-top: 2rem !important;
+}
+
+.forminput{
+	height: 4rem;
+}
+
+.main{
+	background: url('../img/pexels-photo-545049.jpg') no-repeat;
+	background-repeat:no-repeat;
+    background-size: cover;
+	min-height: 68rem;
+}
+
+.loginbtn{
+	background: #419FD8;
+	color: orange;
+	height: 24rem;
+	font-size:10rem;
+	background: rgba(255,255,255,.0);
+	font-family:LiSu;
+	text-align:center;
+}
+
+.loginbtn:hover{
+	color: gold;
+}

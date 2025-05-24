@@ -1,0 +1,33 @@
+.main{
+	background: white;
+	min-height: 90rem;
+	background: url('../img/timg.jpg') ;
+	background-repeat:;
+}
+
+body{
+    background:#eff3f5;
+    width:100%;
+}
+
+#indicator {
+	position: absolute; 
+	left: 60px;
+	bottom: 120px;
+    text-align: left;
+    color: #f2f2f2;
+    font-size: 12px;
+}
+
+#indicator>div {
+    margin-bottom: 4px;
+}
+
+#indicator span {
+    display: inline-block;
+    width: 30px;
+    height: 14px;
+    position: relative;
+    top: 2px;
+    margin-right: 8px;
+}

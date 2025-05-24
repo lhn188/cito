@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>基于复杂网络的类集成测试序列生成系统</title>
+	<meta http-equiv="Content-Type" Content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="bootstrap-fileinput-master/js/fileinput.min.js"></script>
+	<script type="text/javascript" src="bootstrap-fileinput-master/js/locales/zh.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  	<link rel="stylesheet" type="text/css" href="css/footer.css">
+  	<link rel="stylesheet" type="text/css" href="css/display.css">
+  	<link rel="stylesheet" type="text/css" href="bootstrap-fileinput-master/css/fileinput.min.css">
+  
+</head>
+<body>
+<div class="container-fluid main" id="main" style="padding: 0">
+    <div class="top">
+   	<ul>
+		<li ><a id="selectS">选择系统</a></li>
+		<li ><a href="">静态分析</a></li>
+		<li ><a href="">动态分析</a></li>
+	</ul>	
+    </div>
+  	<div class="content">
+  		<div style="font-family:SimHei">
+  			<h1>项目说明:</h1>
+  		</div>
+    	<p>1 选择系统</p>
+    	<p>2 静态分析</p>
+    	<p>3 动态分析</p>
+		<p>3 结果展示</p>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">选择系统</h4>
+            </div>
+            <div class="modal-body" id="form">
+            	<div>
+            		<label class="control-label">选择已有系统：</label>
+            		<select class="form-control" id="selectS">
+            			<option value="Cli">Cli</option>
+	            		<option value="Codec">Codec</option>
+	            		<option value="Compress">Compress</option>
+	            		<option value="Csv">Csv</option>
+	            		<option value="JacksonXml">JacksonXml</option>
+						<option value="elevator">elevator</option>
+	            		<option value="test">test</option>
+	            		<option value="daisy">daisy</option>
+	            		<option value="email-spl">email-spl</option>
+						<option value="BCEL">BCEL</option>
+						<option value="JaConTeBe">jacontebe</option>
+						<option value="jboss">jboss</option>
+						<option value="ANT">ANT</option>
+						<option value="notepad_spl">notepad-spl</option>
+						<option value="ATM">ATM</option>
+						<option value="SPM">SPM</option>
+						<option value="DNS">DNS</option>
+
+            		</select>
+            	</div>
+            	<br>
+            	<input type="file" id="uploadfile" name="file" class="file" style="width:190px;" multiple="multiple"/>
+            </div>
+            <div class="modal-footer">
+            	<form action="http://localhost:8080/staticPic" method="get">
+            		<input type="hidden" id="hide" name="Name"></input>
+            		<input type="submit" class="btn btn-primary" id="sure" value="确定并生成测试序列"></input>
+            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            	</form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+</body>
+</html>
+
+<script>
+$("#selectS").click(function(){
+	$("#myModal").modal('show');
+});
+$("#uploadfile").click(function(){
+	
+});
+
+$("#uploadfile").fileinput({
+     language: 'zh', //设置语言
+     textEncoding : "UTF-8",//文本编码
+     uploadUrl: "fileUpload", //上传的地址
+     allowedFileExtensions: ['zip'], //接收的文件后缀
+     uploadAsync: true, //默认异步上传
+     showUpload: true, //是否显示上传按钮
+     showRemove : true, //显示移除按钮
+     showPreview : false, //是否显示预览
+     showCaption: true,//是否显示标题
+     browseClass: "btn btn-primary", //按钮样式     
+     dropZoneEnabled: false,//是否显示拖拽区域
+     maxFileCount: 1, //表示允许同时上传的最大文件个数
+     enctype: 'multipart/form-data',
+     validateInitialCount:false
+}).on("fileuploaded", function (event, data, previewId, index) {
+	
+});
+
+$("#sure").click(function(){
+	 var selectName=$("select[id='selectS']").val();
+	 $("input[id=hide]").val(selectName);
+	 alert($("input[id=hide]").val());
+});
+</script>
+

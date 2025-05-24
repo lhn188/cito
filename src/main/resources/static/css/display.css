@@ -1,0 +1,62 @@
+.main{
+	background: white;
+	min-height: 90rem;
+	background: url('../img/timg.jpg') ;
+	background-repeat:;
+}
+.top{
+    height:8rem; 
+    width:100%;
+    position: fixed; 
+    top: 0;
+}
+.top ul{
+    width:cover;
+    height:cover;
+    list-style-type: none;
+    white-space:nowrap;
+    margin-left: 5%;
+    margin-top:1%;
+    margin-bottom:1%;
+    padding: 0;
+    top:5px;
+}
+.top li {
+    float:left; 
+    margin-right:2%;  
+    position: relative;
+    overflow: hidden;
+}
+
+.top li a{  
+    display: block; 
+    color:white;
+    text-align: center;
+    padding: 3px;
+    overflow: hidden;
+    font-family:Microsoft YaHei;
+    font-size:2.5rem;
+    color:rgb(139,131,134);
+    text-decoration:none;
+}
+.top li a:hover{
+   	color:rgb(205,155,155);
+}
+
+body{
+    background:#eff3f5;
+    width:100%;
+}
+.content{
+	padding: 5% 25% 10% 25%;
+	height: 80rem;
+	background: rgba(255,255,255,.4);
+	position: fixed;
+    width:100%;
+    margin:8rem 0;
+    font-size:2.3rem;
+    font-family:NSimSun;
+}
+.import_box{
+	display:none;
+}

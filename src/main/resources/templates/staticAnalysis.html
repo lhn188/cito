@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<title>基于复杂网络的类集成测试序列生成系统</title>
+	<meta http-equiv="Content-Type" Content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  	<link rel="stylesheet" type="text/css" href="css/staticAnalysis.css">
+  	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="js/d3.v4.min.js"></script>-->
+	<script type="text/javascript" src="js/d3.min.js"></script>
+	<!-- <script type="text/javascript" src="js/d3.js"></script>-->
+</head>
+<body>
+<div>
+	<a href="/enter">返回上一级</a>
+</div>
+<div class="container-fluid main" id="main" style="padding: 0">
+
+	<div class="content">
+	<!-- 第二个布局 下部分时间点 文本居中 相对定位-->
+	<div style="display:inline-block" id="show">
+		
+	</div> 
+	
+	<div style="display:inline-block; width:25%" class="col-md-6">
+		<div>
+			<table id="systemTable" class="table">
+			<caption>系统信息</caption>
+			<thead>
+				<tr style="table-layout: fixed">
+					<th>类的数目</th>
+					<th>依赖关系数目</th>
+					<th>环路数量</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td th:text="${Info.class_n}"></td>
+				<td th:text="${Info.ret_n}"></td>
+				<td th:text="${Info.circle_n}"></td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+		<div class="row pre-scrollable">
+			<table id="classTable" class="table table-bordered">
+			<caption>类列表</caption>
+			<thead>
+				<tr style="table-layout: fixed">
+					<th>类编号</th>
+					<th>类名称</th>
+					<th>类重要性</th>
+				</tr>
+			</thead>
+			<tbody>
+			 <tr th:each="cl:${Classes}">
+				<td th:text="${cl.cId}"></td>
+				<td th:text="${cl.cName}"></td>
+				<td th:text="${cl.importance}"></td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+		<div class="row pre-scrollable">
+			<table class="table table-bordered">
+			<caption>类间依赖关系列表</caption>
+			<thead>
+				<tr style="table-layout: fixed">
+					<th>起始编号</th>
+					<th>终止编号</th>
+					<th>关系类型</th>
+					<th>耦合度</th>
+				</tr>
+			</thead>
+			<tbody id="edgeTable">
+			 <tr th:each="edge:${Edges}">
+				<td th:text="${edge.fromIndex}"></td>
+				<td th:text="${edge.toIndex}"></td>
+				<td th:text="${edge.sType}"></td>
+				<td th:text="${edge.couple}"></td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div style="display:inline-block; width:35%">
+
+	<div class="panel panel-default row pre-scrollable">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				基于复杂网络的结果
+			</h3>
+		</div>
+		<div class="panel-body" id="panel2">
+			<p>测试序列：</p>
+			<p th:text="${BCN.order}"></p>
+			<p><span>整体测试桩复杂度: </span>
+			<span th:text="${BCN.cost}"></span></p>
+			<p><span>通用测试桩数量: </span>
+			<span th:text="${BCN.GS}"></span></p>
+			<p><span>特定测试桩数量: </span>
+			<span th:text="${BCN.SS}"></span></p>
+			<p><span>依赖属性数量: </span>
+			<span th:text="${BCN.Deps}"></span></p>
+			<p><span>时间(ms): </span>
+			<span th:text="${BCN.time}"></span></p>
+		</div>
+	</div>
+	</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+   	var classes="[[${Classes}]]";
+   	var edges="[[${Edges}]]";
+   	
+  //准备数据
+   	var nodes = [
+   	 
+   	];
+   	var edges = [
+   	 
+   	];
+   	$('#classTable tr').each(function(){
+   		var json = new Object();
+   		json.name= $(this).find('td:eq(0)').text();
+   		json.importance=$(this).find('td:eq(2)').text();
+   		nodes.push(json);
+   	})
+   	
+   	$('#edgeTable tr').each(function(){
+   		var json = new Object();
+   		json.source= find($(this).find('td:eq(0)').text());
+   		json.target= find($(this).find('td:eq(1)').text());
+   		json.relation= get($(this).find('td:eq(2)').text());
+   		json.value= $(this).find('td:eq(3)').text();
+   		edges.push(json);
+   	})
+   	
+   	function find(value){
+   		var index;
+   		$.each(nodes,function(i,v){
+   			if(value==v.name){
+   				console.log(v.name);
+   				index=i;
+   			}
+   		})
+   		return index;
+   	}
+   	console.log(nodes);
+	console.log(edges);
+	
+   	function get(rid){
+   		if(rid=="1")	return "AS";
+   		if(rid=="2")	return "AG";
+   		if(rid=="3")	return "I";
+   		if(rid=="4")	return "Dy";
+   	}
+   	
+   	var width=500;
+   	var height=600;
+   	var svg=d3.select("#show")
+   	.append("svg")
+   	.attr("width",width)
+   	.attr("height",height);
+   	
+    var marge = {top:10,bottom:10,left:10,right:10}
+    
+    var g = svg.append("g")
+        .attr("transform","translate("+marge.top+","+marge.left+")")
+   	
+   	var forceSimulation=d3.forceSimulation()
+		.force("link",d3.forceLink())
+		.force("charge",d3.forceManyBody())
+		.force("center",d3.forceCenter());
+	
+	forceSimulation.nodes(nodes)
+		.on("tick",ticked)
+	
+	forceSimulation.force("link")
+		.links(edges)
+		.distance(function(d){
+			return d.value*100;
+		});
+	
+	forceSimulation.force("center")
+		.x(width/2)
+		.y(height/2);
+	
+	console.log(nodes);
+	console.log(edges);
+	
+	//添加连线
+	var svg_edges=g.append("g")
+		.selectAll("line")
+	  	.data(edges)
+	  	.enter()
+	  	.append("line")
+	  	.attr("stroke","#aaa")
+		.attr("stroke-width",function(d){
+			return 2-d.value;
+		});
+	
+	//添加节点
+	var svg_nodes=g.selectAll(".circleText")
+		.data(nodes)
+		.enter()
+		.append("g")
+		.attr("transform",function(d,i){
+			var cirX = d.x;
+			var cirY = d.y;
+			return "translate("+cirX+","+cirY+")";
+		})
+		.call(d3.drag()
+			.on("start",started)
+			.on("drag",dragged)
+			.on("end",ended)
+		);
+	
+	svg_nodes.append("circle")
+		.attr("r",function(d){
+			return d.importance*20;
+		})
+		.style("fill","#0b9833");
+	
+	svg_nodes.append("text")
+		.attr("x",-10)
+		.attr("y",-20)
+		.attr("dy",10)
+		.text(function(d){
+			return d.name;
+		})
+	
+	function ticked(){//对于每一个时间间隔
+		svg_nodes
+			.attr("transform",function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+	
+		svg_edges
+			.attr("x1",function(d){return d.source.x;})
+	        .attr("y1",function(d){return d.source.y;})
+	        .attr("x2",function(d){return d.target.x;})
+	        .attr("y2",function(d){return d.target.y;});
+	
+	}
+			
+	function started(d){
+		if(!d3.event.active){
+			forceSimulation.alphaTarget(0.8).restart();
+		}
+		d.fx = d.x;
+		d.fy = d.y;
+	}
+	function dragged(d){
+		d.fx = d3.event.x;
+		d.fy = d3.event.y;
+	}
+	function ended(d){
+		if(!d3.event.active){
+			forceSimulation.alphaTarget(0);
+		}
+		d.fx = null;
+		d.fy = null;
+	}
+	
+   </script>
+</body>
+</html>
